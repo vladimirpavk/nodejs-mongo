@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/vladimirpavk/nodejs-mongo#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
     "mongodb": "^3.1.9"
   }
 }

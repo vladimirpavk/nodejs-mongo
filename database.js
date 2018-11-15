@@ -1,20 +1,30 @@
 const mongodb = require ('mongodb');
 const MongoClient = mongodb.MongoClient;
+let _db;
 
-const mongoConnect = (callback) =>{
-    MongoClient.connect('mongodb://vladimir:observer@mycluster-shard-00-00-5mkmw.mongodb.net:27017,mycluster-shard-00-01-5mkmw.mongodb.net:27017,mycluster-shard-00-02-5mkmw.mongodb.net:27017/test?ssl=true&replicaSet=MyCluster-shard-0&authSource=admin&retryWrites=true')
+const mongoConnect = (callback) =>{    
+    MongoClient.connect('mongodb://localhost:27017/testBaza', {useNewUrlParser: true})
     .then(
-        (result)=>{
-            console.log("database.js - "+result);
-            callback(result);
+        (client)=>{   
+            _db = client.db();
+            callback();                           
         })
     .catch(        
         (err)=>{
-            console.log("Some error occured....", err);
+            throw "Some error occured...",err;
         }    
     );
 }
 
+const getDb = () =>{
+    console.log("getDb() running...");
+    if(_db){
+        return _db;
+    }
+    throw "No database connected";
+}
+
 module.exports = {
-    'mongoConnect' : mongoConnect
+    'mongoConnect' : mongoConnect,
+    'getDb' : getDb
 };
