@@ -11,9 +11,9 @@ eApp.use('/product', productRouter);
 dbConnection.mongoConnect(
     ()=>{
         //database connection established or error is thrown    
-        const Product = require('./product.js').Product;
+        /*const Product = require('./product.js').Product;
         let prod1 = new Product("Jabuka", "20.00", "...je lepa");
-        prod1.save();
+        prod1.save();*/
 
         //...or execute express application
         eApp.listen(3000);
