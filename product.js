@@ -57,30 +57,43 @@ class Product {
     }
 
     static deleteById(prodId){
+        console.log("product.js - DeleteById");
         const db = getDb();
-        db.collection('product').deleteOne({
+        return db.collection('product').deleteOne({
             _id: new mongodb.ObjectId(prodId)
         })
-            .then(
-                (result)=>{
-                    console.log("Product successfully deleted...");
-                }
-            )
-            .catch(
-                (err)=>{
-                    throw "Something bad happed...Product not deleted...";
-                }
-            );
+        .then(
+            (result)=>{
+                console.log('Deleted');
+            }
+        )
+        .catch(
+            (err)=>{
+                console.log(err);
+            }
+        )
     }
 
-    static updateById(prodId, newValue){
+    updateById(prodId){
         const db = getDb();
-        db.collection('product').updateOne(
+        return db.collection('product').updateOne(
             {
                 _id: new mongodb.ObjectId(prodId)
             },
-            
+            {
+                $set: this
+            }
         )
+        .then(
+            (res)=>{
+                console.log(res);                
+            }
+        )
+        .catch(
+            (err)=>{
+                console.log(err);
+            }
+        );
     }
 }
 
