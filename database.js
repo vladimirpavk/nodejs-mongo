@@ -7,11 +7,11 @@ const mongoConnect = (callback) =>{
     .then(
         (client)=>{   
             _db = client.db();
-            callback();                           
+            return callback();                           
         })
     .catch(        
         (err)=>{
-            throw "Some error occured...",err;
+            return console.log("Something bad happened. Could not connect to mongo...");
         }    
     );
 }

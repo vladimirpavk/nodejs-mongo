@@ -2,11 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const dbConnection = require('./database');
-const productRouter = require('./product/product.router.js');
+const productRouter = require('./routers/product.router.js');
+const userRouter = require('./routers/user.router');
 
 const eApp = express();
 eApp.use(bodyParser.urlencoded({ extended: true }));
 eApp.use('/product', productRouter);
+eApp.use('/user', userRouter);
 
 dbConnection.mongoConnect(
     ()=>{
@@ -19,5 +21,3 @@ dbConnection.mongoConnect(
         eApp.listen(3000);
     }
 );
-
-

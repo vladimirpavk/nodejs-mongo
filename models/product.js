@@ -1,9 +1,9 @@
 const mongodb = require('mongodb');
 
-const getDb = require('./database').getDb;
+const getDb = require('../database').getDb;
 
 class Product {
-    constructor(title, price, description, image){
+    constructor(title, price, description){
         this.title = title;
         this.price = price;
         this.description = description;       
@@ -11,15 +11,15 @@ class Product {
 
     save(){  
         const db = getDb();
-        db.collection('product').insertOne(this)
+        return db.collection('product').insertOne(this)
             .then(
                 (result)=>{
-                    console.log("Successfully added product...", this);
+                    console.log("Successfully added product...");
                 }
             )
             .catch(
                 (err)=>{
-                    console.log("There is a problem during saving product...", err);
+                    console.log("Something bad happened. Product not added...", err);
                 }
             );
     }
@@ -28,13 +28,14 @@ class Product {
         const db = getDb();
         return db.collection('product').find().toArray()
             .then(
-                (result)=>{
+                (result)=>{                    
                     return result;
                 }
             )
             .catch(
                 (err)=>{
-                    console.log(err);
+                    console.log('err');
+                    console.log('Something bad happened. Product(s) not found...');
                 }
             );
     }
@@ -49,29 +50,24 @@ class Product {
             .then(
                 (product)=>product
             )
-            .err(
+            .catch(
                 (err)=>{
-                    throw "Something bad happed...Product not found...";
+                    return "Something bad happed...Product not found...";
                 }
             )
     }
 
-    static deleteById(prodId){
-        console.log("product.js - DeleteById");
+    static deleteById(prodId){       
         const db = getDb();
         return db.collection('product').deleteOne({
             _id: new mongodb.ObjectId(prodId)
         })
         .then(
-            (result)=>{
-                console.log('Deleted');
-            }
+            (result)=>result
         )
         .catch(
-            (err)=>{
-                console.log(err);
-            }
-        )
+            (err)=>err            
+        );          
     }
 
     updateById(prodId){
